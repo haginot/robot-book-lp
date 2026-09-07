@@ -1,0 +1,4 @@
+node_modules/
+.lighthouseci/
+*.log
+.DS_Store

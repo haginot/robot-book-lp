@@ -1,0 +1,152 @@
+name: 24h Self-Improvement Loop
+
+on:
+  schedule:
+    # 2時間ごと (JST 06,08,10,...24) = 24時間で12ラウンド
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '実行モード (fast=30min / normal=2h / weekly=24h)'
+        required: false
+        default: 'normal'
+      force_apply:
+        description: 'スコア達成でも改善を強制'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: improve-loop
+  cancel-in-progress: false
+
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          npm install -g @lhci/cli@0.14.x pa11y@8
+          npx --yes playwright install --with-deps chromium
+
+      - name: Determine round number
+        id: round
+        run: |
+          ROUND=$(git log --oneline | wc -l)
+          echo "n=$ROUND" >> $GITHUB_OUTPUT
+          echo "date=$(date -u +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
+
+      - name: Screenshot current site
+        run: |
+          node scripts/screenshot.js \
+            --input=index.html \
+            --output=snapshots/round-${{ steps.round.outputs.n }}.png
+
+      - name: Rotate persona pool (3 personas per round)
+        id: personas
+        run: |
+          python scripts/rotate_personas.py \
+            --round=${{ steps.round.outputs.n }} \
+            --output=/tmp/personas.json
+          cat /tmp/personas.json
+          echo "list=$(jq -r '.selected | join(",")' /tmp/personas.json)" >> $GITHUB_OUTPUT
+
+      - name: AI critique (gsk understand_images)
+        env:
+          GSK_TOKEN: ${{ secrets.GSK_TOKEN }}
+        run: |
+          npm install -g @genspark/gsk-cli@latest || true
+          python scripts/run_critique.py \
+            --screenshot=snapshots/round-${{ steps.round.outputs.n }}.png \
+            --personas=/tmp/personas.json \
+            --output=reviews/round-${{ steps.round.outputs.n }}.json
+
+      - name: Compute score & decide
+        id: decide
+        run: |
+          python scripts/decide.py \
+            --review=reviews/round-${{ steps.round.outputs.n }}.json \
+            --history=reviews/ \
+            --force=${{ inputs.force_apply || 'false' }} \
+            > /tmp/decision.json
+          cat /tmp/decision.json
+          echo "score=$(jq -r '.score' /tmp/decision.json)" >> $GITHUB_OUTPUT
+          echo "stop=$(jq -r '.stop' /tmp/decision.json)" >> $GITHUB_OUTPUT
+
+      - name: Generate improvement patch (Claude API)
+        if: steps.decide.outputs.stop != 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python scripts/apply_review.py \
+            --review=reviews/round-${{ steps.round.outputs.n }}.json \
+            --site=index.html \
+            --output=index.html
+
+      - name: Verify quality gates (Lighthouse + Pa11y)
+        id: verify
+        continue-on-error: true
+        run: |
+          python -m http.server 8080 &
+          SERVER_PID=$!
+          sleep 3
+          lhci autorun --config=lighthouserc.json || echo "lighthouse failed"
+          pa11y http://localhost:8080/index.html --threshold=5 > pa11y.txt 2>&1 || echo "pa11y issues"
+          kill $SERVER_PID || true
+
+      - name: Revert if regression
+        if: steps.decide.outputs.stop != 'true' && steps.verify.outcome == 'failure'
+        run: |
+          echo "::warning::Regression detected, reverting patch"
+          git checkout HEAD -- index.html
+
+      - name: Commit changes
+        if: steps.decide.outputs.stop != 'true'
+        run: |
+          git config user.name "24h-loop-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || \
+            git commit -m "round ${{ steps.round.outputs.n }}: score ${{ steps.decide.outputs.score }} (personas: ${{ steps.personas.outputs.list }})"
+          git push origin main
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: round-${{ steps.round.outputs.n }}
+          path: |
+            snapshots/round-${{ steps.round.outputs.n }}.png
+            reviews/round-${{ steps.round.outputs.n }}.json
+            pa11y.txt
+          retention-days: 30
+
+  deploy-pages:
+    needs: improve
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - uses: actions/deploy-pages@v4

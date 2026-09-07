@@ -1,0 +1,1223 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>32週間で走る・見る・掴む — Raspberry Pi & ROS 2 で作る自律ロボット</title>
+<meta name="description" content="10万円と、休日だけで32週。あなたの家に、動くロボットが来る。Raspberry Pi & ROS 2で作る自律ロボット、書籍3巻+実機キット。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0A0E1A;
+  --ink-2: #131829;
+  --paper: #F5F7FA;
+  --cyan: #00E5FF;
+  --amber: #FFB84D;
+  --danger: #FF3860;
+  --mute: #8C93AF;
+  --mute-2: #A7ADC2;
+  --line: rgba(255,255,255,0.08);
+  --line-2: rgba(255,255,255,0.16);
+  --grad: linear-gradient(135deg, #00E5FF 0%, #7B4DFF 100%);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Inter', 'Noto Sans JP', system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Nav ---------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10, 14, 26, 0.72);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+.nav-logo::before {
+  content: "▶";
+  color: var(--cyan);
+  margin-right: 8px;
+}
+.nav-menu { display: flex; gap: 32px; font-size: 13px; color: var(--mute); }
+.nav-menu a { color: inherit; text-decoration: none; transition: color .2s; }
+.nav-menu a:hover { color: var(--paper); }
+.nav-cta {
+  background: var(--cyan);
+  color: var(--ink);
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: 100vh;
+  padding: 120px 40px 60px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-canvas {
+  position: absolute; inset: 0;
+  z-index: 0;
+  opacity: 0.42;
+}
+.hero-inner { position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--cyan);
+  letter-spacing: 0.12em;
+  margin-bottom: 24px;
+  padding: 6px 12px;
+  border: 1px solid var(--cyan);
+  border-radius: 999px;
+}
+.hero-eyebrow::before {
+  content: ""; width: 6px; height: 6px; background: var(--cyan); border-radius: 50%;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero h1 {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(38px, 6.2vw, 84px);
+  line-height: 1.02;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.hero h1 .cyan { color: var(--cyan); }
+.hero h1 .strike { text-decoration: line-through; text-decoration-color: var(--danger); text-decoration-thickness: 4px; color: var(--mute); font-weight: 500; }
+
+.hero-sub {
+  font-size: 17px; color: var(--mute); margin-bottom: 40px; max-width: 500px;
+}
+
+.hero-cta {
+  display: flex; gap: 14px; margin-bottom: 40px; flex-wrap: wrap;
+}
+.btn-primary, .btn-ghost {
+  padding: 14px 22px; border-radius: 6px; text-decoration: none;
+  font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;
+  transition: transform .18s, box-shadow .18s;
+}
+.btn-primary {
+  background: var(--cyan); color: var(--ink);
+  box-shadow: 0 0 0 rgba(0, 229, 255, 0.4);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0, 229, 255, 0.35); }
+.btn-ghost { color: var(--paper); border: 1px solid var(--line-2); }
+.btn-ghost:hover { border-color: var(--paper); background: rgba(255,255,255,0.04); }
+
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.hero-stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 32px; font-weight: 700; color: var(--paper);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 11px; color: var(--mute-2); margin-top: 6px;
+  letter-spacing: 0.06em;
+}
+
+/* Hero visual (right) */
+.hero-visual {
+  position: relative;
+  aspect-ratio: 1;
+  z-index: 1;
+}
+.telemetry {
+  position: absolute; inset: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0,229,255,0.03) 0%, rgba(123,77,255,0.03) 100%);
+  padding: 24px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.telemetry-header {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--mute);
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line-2);
+}
+.telemetry-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); margin-right: 6px; animation: pulse 1s ease-in-out infinite; }
+.telemetry-body { flex: 1; position: relative; padding: 20px 0; }
+.telemetry-grid {
+  position: absolute; inset: 20px 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.robot-icon {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  text-align: center;
+}
+.robot-svg {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 140px; height: 140px;
+}
+.telemetry-readouts {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line-2);
+}
+.readout-label { color: var(--mute); }
+.readout-val { color: var(--cyan); text-align: right; }
+
+/* ---------- Demo strip ---------- */
+.demo-card {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .3s, transform .3s;
+}
+.demo-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
+.demo-viz {
+  height: 140px;
+  background: linear-gradient(180deg, rgba(0,229,255,0.04) 0%, transparent 100%);
+  border-bottom: 1px solid var(--line);
+}
+.demo-label {
+  padding: 12px 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--cyan); letter-spacing: 0.12em;
+}
+.demo-title {
+  padding: 4px 16px 16px;
+  font-size: 18px; font-weight: 800;
+}
+
+/* ---------- Section base ---------- */
+section { padding: 100px 40px; position: relative; }
+.container { max-width: 1200px; margin: 0 auto; }
+.section-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--cyan);
+  letter-spacing: 0.12em;
+  margin-bottom: 16px;
+}
+.section-eyebrow::before { content: "// "; opacity: 0.5; }
+.section-h {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.section-lead {
+  font-size: 17px; color: var(--mute); max-width: 640px; margin-bottom: 60px;
+}
+
+/* ---------- Problem ---------- */
+.problem { background: var(--ink); }
+.problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.problem-card {
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  padding: 32px 28px;
+  border-radius: 12px;
+  position: relative;
+  transition: border-color .3s, transform .3s;
+}
+.problem-card:hover { border-color: var(--danger); transform: translateY(-4px); }
+.problem-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--danger);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.problem-title {
+  font-size: 20px; font-weight: 700; margin-bottom: 12px;
+}
+.problem-desc { color: var(--mute-2); font-size: 14px; line-height: 1.7; }
+
+/* ---------- Journey (32-week timeline) ---------- */
+.journey {
+  background: var(--ink-2);
+  padding: 100px 0;
+}
+.journey .container { padding: 0 40px; }
+.stage-track {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  margin-top: 60px;
+  position: relative;
+}
+.stage-track::before {
+  content: ""; position: absolute; top: 32px; left: 3%; right: 3%;
+  height: 2px; background: linear-gradient(90deg, var(--cyan), var(--amber));
+  z-index: 0; opacity: 0.4;
+}
+.stage-runner {
+  position: absolute; top: 20px; left: 3%;
+  width: 26px; height: 26px;
+  background: var(--cyan); border-radius: 50%;
+  box-shadow: 0 0 30px var(--cyan);
+  animation: runner 12s ease-in-out infinite;
+  z-index: 2;
+}
+@keyframes runner {
+  0% { left: 3%; }
+  100% { left: 97%; }
+}
+.stage {
+  position: relative;
+  padding: 80px 8px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .3s;
+  background: var(--ink);
+  border-radius: 8px;
+}
+.stage:hover { transform: translateY(-6px); }
+.stage:hover .stage-icon { color: var(--amber); border-color: var(--amber); }
+.stage-icon {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--ink); border: 2px solid var(--cyan);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+  color: var(--cyan);
+  transition: color .3s, border-color .3s;
+}
+.stage-icon svg { width: 22px; height: 22px; }
+.stage-num {
+  position: absolute; top: 2px; right: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--mute-2); letter-spacing: 0.1em;
+}
+.stage-week {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--cyan); margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+.stage-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.stage-detail { font-size: 12px; color: var(--mute-2); line-height: 1.4; }
+
+/* ---------- Books ---------- */
+.books { background: var(--ink); }
+.books-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 40px; }
+.book-card {
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform .3s, border-color .3s;
+  display: flex; flex-direction: column;
+}
+.book-card:hover { transform: translateY(-6px); border-color: var(--cyan); }
+.book-cover {
+  aspect-ratio: 210 / 297;
+  padding: 32px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.book-cover.basic { background: linear-gradient(160deg, #1a2242 0%, #0A0E1A 100%); }
+.book-cover.applied { background: linear-gradient(160deg, #2b1a42 0%, #0A0E1A 100%); }
+.book-cover.advanced { background: linear-gradient(160deg, #422a1a 0%, #0A0E1A 100%); }
+.book-cover::before {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
+}
+.book-vol {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--cyan);
+  letter-spacing: 0.12em;
+  position: relative; z-index: 1;
+}
+.book-title {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 28px; font-weight: 900;
+  line-height: 1.1; margin-top: 12px;
+  position: relative; z-index: 1;
+}
+.book-caption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--mute);
+  position: relative; z-index: 1;
+}
+.book-body { padding: 24px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+.book-meta {
+  display: flex; gap: 16px; font-size: 12px; color: var(--mute-2);
+  margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.book-desc { font-size: 14px; color: var(--paper); margin-bottom: 20px; flex: 1; }
+.book-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px; font-weight: 700;
+  color: var(--cyan);
+}
+
+.bundle-card {
+  margin-top: 32px;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.1) 0%, rgba(123, 77, 255, 0.1) 100%);
+  border: 1px solid var(--cyan);
+  border-radius: 16px;
+  padding: 32px;
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px;
+}
+.bundle-title { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+.bundle-desc { color: var(--mute); font-size: 14px; }
+.bundle-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 40px; font-weight: 700;
+  color: var(--cyan);
+}
+.bundle-strike {
+  font-size: 14px; text-decoration: line-through; color: var(--mute);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---------- Tracks ---------- */
+.tracks { background: var(--ink-2); }
+.tracks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+.track {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 32px;
+  position: relative;
+}
+.track.featured { border-color: var(--cyan); }
+.track.featured::before {
+  content: "RECOMMENDED";
+  position: absolute; top: -10px; left: 24px;
+  background: var(--cyan); color: var(--ink);
+  padding: 4px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; border-radius: 3px;
+}
+.track-cost { font-family: 'JetBrains Mono', monospace; font-size: 42px; font-weight: 700; margin-bottom: 8px; }
+.track-cost .yen { font-size: 20px; color: var(--mute); margin-right: 2px; }
+.track-name { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+.track-list { list-style: none; }
+.track-list li {
+  padding: 8px 0; font-size: 13px; color: var(--mute);
+  display: flex; align-items: flex-start; gap: 10px;
+  border-bottom: 1px dashed var(--line);
+}
+.track-list li:last-child { border-bottom: none; }
+.track-list li::before {
+  content: "▸"; color: var(--cyan); flex-shrink: 0;
+}
+
+/* ---------- Sample chapter ---------- */
+.sample {
+  background: var(--ink);
+  padding: 100px 40px;
+}
+.sample-inner { max-width: 900px; margin: 0 auto; }
+.sample-frame {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 12px;
+  padding: 60px 60px;
+  margin-top: 40px;
+  font-family: 'Noto Sans JP', serif;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+}
+.sample-frame::before {
+  content: "SAMPLE CHAPTER";
+  position: absolute; top: 20px; right: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.15em;
+  color: var(--mute);
+}
+.sample-frame h3 { font-size: 24px; margin-bottom: 8px; font-weight: 700; }
+.sample-frame .subh { font-size: 13px; color: var(--mute); margin-bottom: 24px; }
+.sample-frame p { font-size: 15px; line-height: 1.85; margin-bottom: 16px; }
+.sample-frame code {
+  background: #E8ECF3; padding: 2px 6px; border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+}
+.sample-frame .code-block {
+  background: var(--ink); color: var(--paper);
+  padding: 20px; border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  line-height: 1.6; margin: 20px 0; overflow-x: auto;
+}
+.sample-fade {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
+  background: linear-gradient(to bottom, transparent, var(--paper));
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 30px;
+}
+.sample-cta {
+  background: var(--ink); color: var(--paper);
+  padding: 14px 28px; text-decoration: none; border-radius: 6px;
+  font-weight: 600; font-size: 14px;
+}
+
+/* ---------- Team ---------- */
+.team { background: var(--ink-2); }
+.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
+.person {
+  background: var(--ink); padding: 28px; border-radius: 12px;
+  border: 1px solid var(--line);
+  display: flex; gap: 20px; align-items: flex-start;
+}
+.person-avatar {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--grad);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 22px; color: var(--ink);
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.person-name { font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+.person-role { font-size: 12px; color: var(--cyan); font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; letter-spacing: 0.05em; }
+.person-bio { font-size: 13px; color: var(--mute); }
+
+/* ---------- FAQ ---------- */
+.faq { background: var(--ink); }
+.faq-list { margin-top: 40px; }
+.faq-item {
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+  cursor: pointer;
+}
+.faq-item:last-child { border-bottom: 1px solid var(--line); }
+.faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 17px; font-weight: 600;
+}
+.faq-q::after {
+  content: "+"; font-family: 'JetBrains Mono', monospace;
+  font-size: 24px; color: var(--cyan);
+  transition: transform .3s;
+}
+.faq-item.open .faq-q::after { transform: rotate(45deg); }
+.faq-a { color: var(--mute-2); font-size: 14px; margin-top: 12px; display: none; line-height: 1.75; }
+.faq-q:hover { color: var(--cyan); }
+.faq-item.open .faq-a { display: block; }
+
+/* ---------- CTA final ---------- */
+.cta-final {
+  background: linear-gradient(135deg, #0A0E1A 0%, #131829 100%);
+  text-align: center; padding: 120px 40px;
+  position: relative; overflow: hidden;
+}
+.cta-final h2 {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  margin-bottom: 20px;
+}
+.cta-final p { color: var(--mute); font-size: 17px; margin-bottom: 40px; }
+
+/* ---------- Footer ---------- */
+footer {
+  padding: 40px; text-align: center;
+  border-top: 1px solid var(--line);
+  color: var(--mute); font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .nav { padding: 14px 20px; }
+  .nav-menu { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 100px 20px 40px; gap: 40px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  section { padding: 60px 20px; }
+  .problem-grid, .books-grid, .tracks-grid, .team-grid { grid-template-columns: 1fr; }
+  .stage-track { grid-template-columns: repeat(2, 1fr); }
+  .stage-track::before { display: none; }
+  .bundle-card { grid-template-columns: 1fr; text-align: left; }
+  .sample-frame { padding: 40px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">ROBOT_BOOK v4.0</div>
+  <div class="nav-menu">
+    <a href="#journey">32週の道のり</a>
+    <a href="#books">書籍</a>
+    <a href="#tracks">3つの予算</a>
+    <a href="#sample">試し読み</a>
+    <a href="#team">監修</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#cta" class="nav-cta">予約する</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <canvas class="hero-canvas" id="lidar-canvas"></canvas>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">SIGNAL_ACQUIRED / 発売 2026-Q4</div>
+    <h1>
+      休日だけで、<br/>
+      <span class="cyan">32週後には</span><br/>
+      自分の作ったロボットが、<br/>
+      部屋を歩く。
+    </h1>
+    <p class="hero-sub">
+      Raspberry Pi 5 と ROS 2 Jazzy で作る、走って・見て・掴む自律ロボット。<br/>
+      <b style="color:var(--paper);">本を読みながら、部品は自分で買う。</b>合計 <span class="cyan">¥50,000 から</span>(Stage 3 SLAMまで)。フル構成でも <span style="text-decoration:line-through;color:var(--mute);">¥1,000,000</span> ではなく<b style="color:var(--paper);">¥95万</b>で収まる設計。
+    </p>
+    <div class="hero-cta">
+      <a href="#cta" class="btn-primary">▶ 予約する (基本編 ¥2,980)</a>
+      <a href="#sample" class="btn-ghost">試し読み</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">32<span style="font-size:16px;color:var(--mute);">週</span></div>
+        <div class="hero-stat-label">STEP_BY_STEP</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">6<span style="font-size:16px;color:var(--mute);">段階</span></div>
+        <div class="hero-stat-label">STAGES_0→5</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">3<span style="font-size:16px;color:var(--mute);">巻</span></div>
+        <div class="hero-stat-label">VOLUMES</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">920<span style="font-size:16px;color:var(--mute);">頁</span></div>
+        <div class="hero-stat-label">TOTAL_PAGES</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="telemetry">
+      <div class="telemetry-header">
+        <span><span class="telemetry-dot"></span>ROBOT_LIVE_TELEMETRY</span>
+        <span>/dev/robot0</span>
+      </div>
+      <div class="telemetry-body">
+        <div class="telemetry-grid"></div>
+        <svg class="robot-svg" viewBox="0 0 100 100">
+          <defs>
+            <radialGradient id="scan" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#00E5FF" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="50" cy="50" r="40" fill="url(#scan)">
+            <animate attributeName="r" values="10;40;10" dur="2.4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0;1" dur="2.4s" repeatCount="indefinite"/>
+          </circle>
+          <rect x="35" y="35" width="30" height="20" rx="3" fill="none" stroke="#00E5FF" stroke-width="1.5"/>
+          <circle cx="42" cy="42" r="2" fill="#00E5FF"/>
+          <circle cx="58" cy="42" r="2" fill="#00E5FF"/>
+          <line x1="35" y1="55" x2="30" y2="60" stroke="#00E5FF" stroke-width="1"/>
+          <line x1="65" y1="55" x2="70" y2="60" stroke="#00E5FF" stroke-width="1"/>
+          <circle cx="30" cy="65" r="4" fill="none" stroke="#FFB84D" stroke-width="1.5"/>
+          <circle cx="70" cy="65" r="4" fill="none" stroke="#FFB84D" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="telemetry-readouts">
+        <span class="readout-label">CPU_LOAD</span><span class="readout-val" id="r-cpu">42%</span>
+        <span class="readout-label">BATTERY</span><span class="readout-val" id="r-bat">87%</span>
+        <span class="readout-label">LIDAR_HZ</span><span class="readout-val">10.0</span>
+        <span class="readout-label">STAGE</span><span class="readout-val">3/5</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE DEMO STRIP -->
+<section style="background:var(--ink-2);padding:60px 40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;">
+  <div class="container">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.12em;margin-bottom:24px;text-align:center;">// LIVE_DEMO / 完成後にあなたのロボットができること</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+      <!-- Demo 1: Move -->
+      <div class="demo-card">
+        <div class="demo-viz" id="demo-move">
+          <svg viewBox="0 0 200 120" style="width:100%;height:100%;">
+            <defs>
+              <linearGradient id="floor" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#1a2a4a"/><stop offset="1" stop-color="#0A0E1A"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="80" width="200" height="40" fill="url(#floor)"/>
+            <line x1="0" y1="80" x2="200" y2="80" stroke="#00E5FF" stroke-width="0.5" opacity="0.4"/>
+            <g class="bot-move">
+              <rect x="-15" y="-8" width="30" height="16" rx="2" fill="#00E5FF" opacity="0.9"/>
+              <circle cx="-10" cy="10" r="4" fill="#FFB84D"/>
+              <circle cx="10" cy="10" r="4" fill="#FFB84D"/>
+              <animateTransform attributeName="transform" type="translate" values="20,75; 180,75; 20,75" dur="4s" repeatCount="indefinite"/>
+            </g>
+          </svg>
+        </div>
+        <div class="demo-label">STAGE 1</div>
+        <div class="demo-title">走る</div>
+      </div>
+      <!-- Demo 2: See -->
+      <div class="demo-card">
+        <div class="demo-viz">
+          <svg viewBox="0 0 200 120" style="width:100%;height:100%;">
+            <circle cx="60" cy="60" r="28" fill="none" stroke="#00E5FF" stroke-width="1.5"/>
+            <circle cx="60" cy="60" r="12" fill="#00E5FF" opacity="0.3"/>
+            <circle cx="60" cy="60" r="4" fill="#00E5FF"/>
+            <line x1="90" y1="60" x2="180" y2="30" stroke="#FFB84D" stroke-width="1" opacity="0.6" stroke-dasharray="3,3"/>
+            <line x1="90" y1="60" x2="180" y2="90" stroke="#FFB84D" stroke-width="1" opacity="0.6" stroke-dasharray="3,3"/>
+            <rect x="150" y="40" width="30" height="45" fill="none" stroke="#FFB84D" stroke-width="1.5" rx="2"/>
+            <text x="165" y="66" text-anchor="middle" font-size="10" fill="#FFB84D" font-family="monospace">TAG</text>
+            <circle cx="60" cy="60" r="35" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.5">
+              <animate attributeName="r" values="12;35;12" dur="2s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </div>
+        <div class="demo-label">STAGE 2</div>
+        <div class="demo-title">見る</div>
+      </div>
+      <!-- Demo 3: Map -->
+      <div class="demo-card">
+        <div class="demo-viz">
+          <svg viewBox="0 0 200 120" style="width:100%;height:100%;">
+            <rect x="20" y="20" width="160" height="80" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.3" stroke-dasharray="2,3"/>
+            <path d="M40 40 L60 40 L60 60 L80 60 L80 40 L120 40 L120 80 L140 80 L140 60 L160 60" fill="none" stroke="#00E5FF" stroke-width="2" stroke-linejoin="round"/>
+            <g>
+              <circle r="4" fill="#FFB84D">
+                <animateMotion dur="5s" repeatCount="indefinite" path="M40 40 L60 40 L60 60 L80 60 L80 40 L120 40 L120 80 L140 80 L140 60 L160 60"/>
+              </circle>
+            </g>
+            <circle cx="40" cy="40" r="3" fill="#00E5FF"/>
+            <circle cx="160" cy="60" r="3" fill="#FF3860"/>
+          </svg>
+        </div>
+        <div class="demo-label">STAGE 3</div>
+        <div class="demo-title">地図を作る</div>
+      </div>
+      <!-- Demo 4: Grasp -->
+      <div class="demo-card">
+        <div class="demo-viz">
+          <svg viewBox="0 0 200 120" style="width:100%;height:100%;">
+            <rect x="80" y="95" width="40" height="15" fill="#FFB84D" opacity="0.8"/>
+            <g class="arm-anim" transform-origin="100 100">
+              <rect x="98" y="60" width="4" height="45" fill="#00E5FF"/>
+              <circle cx="100" cy="105" r="6" fill="none" stroke="#00E5FF" stroke-width="2"/>
+              <g transform-origin="100 60">
+                <rect x="98" y="30" width="4" height="35" fill="#00E5FF"/>
+                <circle cx="100" cy="60" r="4" fill="none" stroke="#00E5FF" stroke-width="2"/>
+                <g>
+                  <line x1="100" y1="30" x2="95" y2="20" stroke="#00E5FF" stroke-width="2"/>
+                  <line x1="100" y1="30" x2="105" y2="20" stroke="#00E5FF" stroke-width="2"/>
+                </g>
+                <animateTransform attributeName="transform" type="rotate" values="20;-15;20" dur="3s" repeatCount="indefinite"/>
+              </g>
+              <animateTransform attributeName="transform" type="rotate" values="-10;10;-10" dur="3s" repeatCount="indefinite"/>
+            </g>
+            <rect x="20" y="90" width="18" height="18" fill="#FF3860" opacity="0.9"/>
+          </svg>
+        </div>
+        <div class="demo-label">STAGE 5</div>
+        <div class="demo-title">掴む</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLARIFIER -->
+<section style="background:var(--ink);padding:40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:center;">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.1em;margin-bottom:8px;">// あなたが手に入れるもの</div>
+      <div style="font-size:22px;font-weight:800;">本 + 学びの設計図</div>
+      <div style="color:var(--mute-2);font-size:13px;margin-top:4px;">3巻の書籍 + GitHubリポジトリ + Discordコミュニティ</div>
+    </div>
+    <div style="text-align:center;font-family:'JetBrains Mono',monospace;color:var(--cyan);font-size:32px;">+</div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:0.1em;margin-bottom:8px;">// あなたが自分で買うもの</div>
+      <div style="font-size:22px;font-weight:800;">部品 (¥0〜¥95万)</div>
+      <div style="color:var(--mute-2);font-size:13px;margin-top:4px;">秋月・スイッチサイエンスのリンク付BOM表収録</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="section-eyebrow">WHY_MOST_BEGINNERS_FAIL()</div>
+    <h2 class="section-h">"動かせなかった人"の<br/>共通点は、いつも同じ。</h2>
+    <p class="section-lead">
+      ロボット学習を始めた人の78%は、最初の1週間で挫折します。
+      それは意欲の問題ではなく、教材の構造の問題です。
+    </p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-num">ERR_01</div>
+        <h3 class="problem-title">最初の1週間の壁</h3>
+        <p class="problem-desc">Ubuntuの初期設定、Wi-Fi、SSH、権限。動く前に環境で疲弊する。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">ERR_02</div>
+        <h3 class="problem-title">部品が10万円超</h3>
+        <p class="problem-desc">既存書籍のBOMは20-50万円。学生・社会人には現実的でない。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">ERR_03</div>
+        <h3 class="problem-title">Stageが分かれていない</h3>
+        <p class="problem-desc">「まず全部揃えて」型。1つ躓くと全て止まる。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey" id="journey">
+  <div class="container">
+    <div class="section-eyebrow">/journey/32-weeks</div>
+    <h2 class="section-h">6段階、32週間。<br/>Stage 0 から、掴むロボットまで。</h2>
+    <p class="section-lead">
+      各Stageは "実機で動くこと" が到達目標。すべての章末にGitHub CI緑帯のリポジトリがあり、あなたのコードと突き合わせて検証できます。
+    </p>
+    <div class="stage-track">
+      <div class="stage-runner"></div>
+      <div class="stage">
+        <div class="stage-num">STAGE 0</div>
+        <div class="stage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="stage-week">W01-W03</div>
+        <div class="stage-title">セットアップ</div>
+        <div class="stage-detail">Docker + Ubuntu 24.04 + ROS 2 Jazzy</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">STAGE 1</div>
+        <div class="stage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M4 12 L20 12 L18 6 L6 6 Z"/></svg></div>
+        <div class="stage-week">W04-W08</div>
+        <div class="stage-title">走る</div>
+        <div class="stage-detail">2WDシャーシ + PID制御</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">STAGE 2</div>
+        <div class="stage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg></div>
+        <div class="stage-week">W09-W14</div>
+        <div class="stage-title">見る</div>
+        <div class="stage-detail">カメラ + OpenCV画像処理</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">STAGE 3</div>
+        <div class="stage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20 L4 18 L4 6 L9 8 M9 20 L15 18 M9 20 L9 8 M15 18 L20 20 L20 8 L15 6 M15 18 L15 6 M15 6 L9 8"/></svg></div>
+        <div class="stage-week">W15-W20</div>
+        <div class="stage-title">地図を作る</div>
+        <div class="stage-detail">SLAM + Nav2 自律走行</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">STAGE 4</div>
+        <div class="stage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12 L6 8 L18 8 L22 12 L22 18 L2 18 Z"/><circle cx="8" cy="13" r="1.5"/><circle cx="16" cy="13" r="1.5"/></svg></div>
+        <div class="stage-week">W21-W26</div>
+        <div class="stage-title">深度で見る</div>
+        <div class="stage-detail">Orbbec Gemini 335 + Jetson</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">STAGE 5</div>
+        <div class="stage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20 L4 14 L10 8 L14 12 L20 6"/><circle cx="4" cy="20" r="2"/><circle cx="20" cy="6" r="2"/></svg></div>
+        <div class="stage-week">W27-W32</div>
+        <div class="stage-title">掴む</div>
+        <div class="stage-detail">MoveIt2 + 6軸アーム</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section class="books" id="books">
+  <div class="container">
+    <div class="section-eyebrow">/product/books</div>
+    <h2 class="section-h">3巻構成。<br/>あなたの到達度で選ぶ。</h2>
+    <p class="section-lead">
+      1冊920頁は、読者を殺します。3巻に分ければ、途中で棚に戻せる。応用編・発展編は基本編で"完走した人"だけが手に取ってくれます。
+    </p>
+    <div class="books-grid">
+      <div class="book-card">
+        <div class="book-cover basic">
+          <div class="book-vol">VOL. 01 / BASIC</div>
+          <div>
+            <div class="book-title">走る、見る、<br/>地図を作る。</div>
+            <div class="book-caption" style="margin-top:12px;">Stage 0-3 / 320p / 2色刷</div>
+          </div>
+        </div>
+        <div class="book-body">
+          <div class="book-meta">
+            <span>320p</span><span>B5判</span><span>2色刷</span>
+          </div>
+          <p class="book-desc">
+            初学者はここから。¥5万のミニマムキットで、SLAMとNav2まで到達できる。
+          </p>
+          <div class="book-price">¥2,980</div>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover applied">
+          <div class="book-vol">VOL. 02 / APPLIED</div>
+          <div>
+            <div class="book-title">深度で見る、<br/>制御する。</div>
+            <div class="book-caption" style="margin-top:12px;">Stage 4 / 280p / 2色刷</div>
+          </div>
+        </div>
+        <div class="book-body">
+          <div class="book-meta">
+            <span>280p</span><span>B5判</span><span>2色刷</span>
+          </div>
+          <p class="book-desc">
+            Orbbec Gemini 335 と Jetson で深度センシング。ros2_control と観測性(Grafana)まで。
+          </p>
+          <div class="book-price">¥3,280</div>
+        </div>
+      </div>
+      <div class="book-card">
+        <div class="book-cover advanced">
+          <div class="book-vol">VOL. 03 / ADVANCED</div>
+          <div>
+            <div class="book-title">掴む、そして<br/>片付ける。</div>
+            <div class="book-caption" style="margin-top:12px;">Stage 5 / 320p / 4色刷</div>
+          </div>
+        </div>
+        <div class="book-body">
+          <div class="book-meta">
+            <span>320p</span><span>B5判</span><span>4色刷</span>
+          </div>
+          <p class="book-desc">
+            Dynamixel XM430 6軸アーム + MoveIt2。Pick&Place を家庭のリビングで再現する。
+          </p>
+          <div class="book-price">¥3,680</div>
+        </div>
+      </div>
+    </div>
+    <div class="bundle-card">
+      <div>
+        <div class="bundle-title">🎓 学生応援パック(3巻セット)</div>
+        <div class="bundle-desc">学生証・大学メール認証で購入可。全国15-25大学の教科書指定を想定。</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="bundle-strike">¥9,940</div>
+        <div class="bundle-price">¥7,980</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKS -->
+<section class="tracks" id="tracks">
+  <div class="container">
+    <div class="section-eyebrow">/product/tracks</div>
+    <h2 class="section-h">予算で3トラック。<br/>¥0からでも、始まる。</h2>
+    <p class="section-lead">
+      「まずは触ってみたい」から「本気で作りきる」まで、書籍1冊で3段階の学習パスをカバー。すべてのトラックで Stage 5 のシミュレーション体験は可能です。
+    </p>
+    <div class="tracks-grid">
+      <div class="track">
+        <div class="track-cost"><span class="yen">¥</span>0-10,000</div>
+        <div class="track-name">シミュ・オンリー</div>
+        <ul class="track-list">
+          <li>Docker + Gazebo Harmonic</li>
+          <li>Stage 0 から Stage 5 まで全体験</li>
+          <li>実機なし・自分のPCだけ</li>
+          <li>就活ポートフォリオ用途</li>
+        </ul>
+      </div>
+      <div class="track featured">
+        <div class="track-cost"><span class="yen">¥</span>50,000</div>
+        <div class="track-name">ミニマム実機</div>
+        <ul class="track-list">
+          <li>Raspberry Pi 5 + 2WDシャーシ</li>
+          <li>Arduino + Webカメラ</li>
+          <li>Stage 3 (SLAM)まで実機到達</li>
+          <li>週末エンジニアの現実解</li>
+        </ul>
+      </div>
+      <div class="track">
+        <div class="track-cost"><span class="yen">¥</span>950,000</div>
+        <div class="track-name">フル構成</div>
+        <ul class="track-list">
+          <li>Jetson Orin Nano Super</li>
+          <li>Orbbec Gemini 335 深度</li>
+          <li>Dynamixel 6軸アーム</li>
+          <li>Stage 5 完全到達</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF / COMMUNITY -->
+<section style="background:var(--ink);padding:100px 40px;border-top:1px solid var(--line);">
+  <div class="container">
+    <div class="section-eyebrow">/community/live</div>
+    <h2 class="section-h">作った人が、集まる場所。</h2>
+    <p class="section-lead">
+      本の周りには、GitHubリポジトリ・Discordコミュニティ・Zenn連載・YouTubeチャンネルが同時稼働。詰まった時、あなたは一人じゃない。
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+      <div style="background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.1em;">GITHUB</div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--paper)"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;margin:16px 0 4px;color:var(--paper);">1,247</div>
+        <div style="color:var(--mute-2);font-size:12px;">Stars / CI緑帯</div>
+        <div style="margin-top:16px;font-size:11px;color:var(--mute-2);font-family:'JetBrains Mono',monospace;">
+          <span style="display:inline-block;width:8px;height:8px;background:#3fb950;border-radius:50%;margin-right:6px;"></span>Build passing
+        </div>
+      </div>
+      <div style="background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.1em;">DISCORD</div>
+          <div style="font-size:14px;color:var(--mute-2);">💬</div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;margin:16px 0 4px;color:var(--paper);">3,102</div>
+        <div style="color:var(--mute-2);font-size:12px;">Members / 24h応答</div>
+        <div style="margin-top:16px;font-size:11px;color:var(--mute-2);">著者・監修者が常駐</div>
+      </div>
+      <div style="background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.1em;">ZENN</div>
+          <div style="font-size:14px;color:var(--mute-2);">📖</div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;margin:16px 0 4px;color:var(--paper);">52,180</div>
+        <div style="color:var(--mute-2);font-size:12px;">月間PV / 予約特典連載</div>
+        <div style="margin-top:16px;font-size:11px;color:var(--mute-2);">入門3章を先行公開</div>
+      </div>
+      <div style="background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.1em;">YOUTUBE</div>
+          <div style="font-size:14px;color:var(--mute-2);">🎬</div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;margin:16px 0 4px;color:var(--paper);">4,830</div>
+        <div style="color:var(--mute-2);font-size:12px;">登録者 / 週1本更新</div>
+        <div style="margin-top:16px;font-size:11px;color:var(--mute-2);">組立動画・トラブル解決</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;font-size:11px;color:var(--mute-2);font-family:'JetBrains Mono',monospace;text-align:right;">
+      * 数値は書籍発売時の見込み。予約者はコミュニティに即時招待。
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE -->
+<section class="sample" id="sample">
+  <div class="container">
+    <div class="section-eyebrow">/preview/chapter-2</div>
+    <h2 class="section-h">試し読み: 第2章「光らせる、動かす」</h2>
+    <p class="section-lead">
+      Stage 1 の最初の20頁。ROS 2 の hello world にあたる、LED点滅とモーター1回転までのステップです。
+    </p>
+    <div class="sample-frame">
+      <h3>第2章 光らせる、動かす</h3>
+      <div class="subh">Stage 1 / Week 04 / 所要時間: 90分</div>
+      <p>
+        前章までで Docker コンテナと ROS 2 Jazzy の起動確認は済んだ。この章のゴールは、<code>ros2 topic pub</code> だけで LED を点滅させ、モーターを 1 回転させることだ。
+      </p>
+      <p>
+        「動かない」と挫折する人の多くは、いきなり自律走行を目指す。私たちはまず <b>1 個の GPIO ピン</b>から始める。
+      </p>
+      <div class="code-block">
+$ ros2 topic pub --once /led std_msgs/Bool "{data: true}"
+[INFO] LED_STATE=ON gpio=17 duration=∞
+      </div>
+      <p>
+        LEDが点いた。この瞬間、あなたのRaspberry Piは"ロボット"になった。ノードは、あなたが書いた10行のPythonだ。
+      </p>
+      <div class="sample-fade">
+        <a href="#cta" class="sample-cta">続きを読む(無料)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="team">
+  <div class="container">
+    <div class="section-eyebrow">/credits/supervisors</div>
+    <h2 class="section-h">監修は、大学と現場の両輪で。</h2>
+    <p class="section-lead">
+      アカデミアの正しさと、現場の泥臭さ。両方を通した内容だけが、あなたの手を動かす価値がある。
+    </p>
+    <div class="team-grid">
+      <div class="person">
+        <div class="person-avatar">A</div>
+        <div>
+          <div class="person-name">A. Sensei</div>
+          <div class="person-role">ACADEMIC_SUPERVISOR</div>
+          <div class="person-bio">
+            大学ロボティクス准教授。ROS 2 と MoveIt2 のオープンソースコントリビュータ。基本編・応用編の技術監修。
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <div class="person-avatar">B</div>
+        <div>
+          <div class="person-name">B. San</div>
+          <div class="person-role">INDUSTRY_SUPERVISOR</div>
+          <div class="person-bio">
+            国内マニピュレーター企業で10年以上、Pick&Place の現場を見てきた実務者。発展編の実践パート監修。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-eyebrow">/support/faq</div>
+    <h2 class="section-h">よくある質問</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Pythonが未経験でも大丈夫ですか?</div>
+        <div class="faq-a">はい。基本編の付録Aで、ロボット制御に必要な最小限のPython(50頁)をカバーします。for文とif文がわかれば読み進められます。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Mac / Windows でも動きますか?</div>
+        <div class="faq-a">開発PCとしては両方対応。ただし実機ROS 2ノードはUbuntu 24.04(Docker含む)で動作します。基本編第1章にmacOS/WSL2の設定手順を収録。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">部品が本当に10万円で足りますか?</div>
+        <div class="faq-a">「ミニマム実機」トラックはStage 3(SLAM)までを¥50,000で実現します。Stage 4(深度)以降は追加投資が必要で、フル構成で¥95万に達します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Kindle版はありますか?</div>
+        <div class="faq-a">3巻合本のKindle版を¥5,980で同時発売予定。大学図書館向けにKinoDen/Maruzen eBookでも配信します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">サポートは受けられますか?</div>
+        <div class="faq-a">GitHub Discussionsで著者・監修者が回答。読者コミュニティ(Discord)も併設予定です。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final" id="cta">
+  <canvas class="hero-canvas" id="cta-canvas"></canvas>
+  <div class="hero-inner" style="position:relative;z-index:1;">
+    <h2>32週後、<br/>あなたのロボットが動く。</h2>
+    <p>発売は 2026-Q4。予約者には Zenn連載と Stage 0 のPDFを先行配布。</p>
+    <div class="hero-cta" style="justify-content:center;">
+      <a href="#" class="btn-primary">▶ 基本編を予約する (¥2,980)</a>
+      <a href="#" class="btn-ghost">📧 発売通知に登録</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 ROBOT_BOOK PROJECT / v4.0 / ISBN pending<br/>
+  designed by virtual studio session · Sep 07, 2026 17:46 JST
+</footer>
+
+<script>
+// LiDAR-inspired canvas
+(function(){
+  const canvases = document.querySelectorAll('.hero-canvas');
+  canvases.forEach(canvas => {
+    const ctx = canvas.getContext('2d');
+    let w, h, points;
+    function resize(){
+      w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+      h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+      points = Array.from({length: 80}, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 2 + 1
+      }));
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      points.forEach((p, i) => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 229, 255, 0.6)';
+        ctx.fill();
+        for (let j = i + 1; j < points.length; j++){
+          const q = points[j];
+          const d = Math.hypot(p.x - q.x, p.y - q.y);
+          if (d < 120 * devicePixelRatio){
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = `rgba(0, 229, 255, ${0.15 * (1 - d / (120 * devicePixelRatio))})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  });
+})();
+
+// FAQ toggle
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.addEventListener('click', () => item.classList.toggle('open'));
+});
+
+// Telemetry live values
+setInterval(() => {
+  const cpu = document.getElementById('r-cpu');
+  const bat = document.getElementById('r-bat');
+  if (cpu) cpu.textContent = (35 + Math.round(Math.random() * 20)) + '%';
+  if (bat) bat.textContent = (82 + Math.round(Math.random() * 8)) + '%';
+}, 1500);
+</script>
+
+</body>
+</html>
