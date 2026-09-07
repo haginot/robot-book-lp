@@ -76,6 +76,7 @@ if __name__ == "__main__":
     a = ap.parse_args()
     personas = json.load(open(a.personas))
     result = critique(a.screenshot, personas)
+    os.makedirs(os.path.dirname(a.output) or ".", exist_ok=True)
     with open(a.output, "w") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
     print(f"ok: {a.output}")
