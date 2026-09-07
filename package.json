@@ -1,0 +1,13 @@
+{
+  "name": "robot-book-lp",
+  "version": "3.0.0",
+  "private": true,
+  "description": "32週間ロボット書籍LP + 24時間自己改善ループ",
+  "scripts": {
+    "screenshot": "node scripts/screenshot.js --input=index.html --output=snapshots/local.png",
+    "serve": "python3 -m http.server 8080"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0"
+  }
+}

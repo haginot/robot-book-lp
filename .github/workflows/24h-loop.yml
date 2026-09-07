@@ -46,8 +46,9 @@ jobs:
 
       - name: Install dependencies
         run: |
+          npm install
+          npx playwright install --with-deps chromium
           npm install -g @lhci/cli@0.14.x pa11y@8
-          npx --yes playwright install --with-deps chromium
 
       - name: Determine round number
         id: round
@@ -71,11 +72,10 @@ jobs:
           cat /tmp/personas.json
           echo "list=$(jq -r '.selected | join(",")' /tmp/personas.json)" >> $GITHUB_OUTPUT
 
-      - name: AI critique (gsk understand_images)
+      - name: AI critique (Anthropic Vision)
         env:
-          GSK_TOKEN: ${{ secrets.GSK_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          npm install -g @genspark/gsk-cli@latest || true
           python scripts/run_critique.py \
             --screenshot=snapshots/round-${{ steps.round.outputs.n }}.png \
             --personas=/tmp/personas.json \
