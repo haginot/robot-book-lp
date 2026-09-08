@@ -1,0 +1,35 @@
+{
+  "round": 9,
+  "personas": [
+    "sara_ux",
+    "vc_investor",
+    "mika_a11y"
+  ],
+  "reviews": [
+    {
+      "persona": "sara_ux",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "vc_investor",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "mika_a11y",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
