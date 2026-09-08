@@ -1,0 +1,35 @@
+{
+  "round": 6,
+  "personas": [
+    "student_reviewer",
+    "emma_rights_agent",
+    "a11y_advocate"
+  ],
+  "reviews": [
+    {
+      "persona": "student_reviewer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "emma_rights_agent",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "a11y_advocate",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
