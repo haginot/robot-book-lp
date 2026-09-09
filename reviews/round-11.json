@@ -1,0 +1,35 @@
+{
+  "round": 11,
+  "personas": [
+    "vc_investor",
+    "yamada_marketing",
+    "chris_photographer"
+  ],
+  "reviews": [
+    {
+      "persona": "vc_investor",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "yamada_marketing",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "chris_photographer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
