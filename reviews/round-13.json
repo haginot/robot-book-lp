@@ -1,0 +1,35 @@
+{
+  "round": 13,
+  "personas": [
+    "tanaka_reader",
+    "chris_photographer",
+    "yamada_marketing"
+  ],
+  "reviews": [
+    {
+      "persona": "tanaka_reader",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "chris_photographer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "yamada_marketing",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
