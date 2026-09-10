@@ -1,0 +1,35 @@
+{
+  "round": 20,
+  "personas": [
+    "yuki_motion",
+    "tanaka_reader",
+    "vc_investor"
+  ],
+  "reviews": [
+    {
+      "persona": "yuki_motion",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "tanaka_reader",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "vc_investor",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
