@@ -1,0 +1,35 @@
+{
+  "round": 24,
+  "personas": [
+    "nao_youtuber",
+    "ken_frontend",
+    "sara_ux"
+  ],
+  "reviews": [
+    {
+      "persona": "nao_youtuber",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "ken_frontend",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "sara_ux",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
