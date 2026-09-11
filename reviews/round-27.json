@@ -1,0 +1,35 @@
+{
+  "round": 27,
+  "personas": [
+    "nao_youtuber",
+    "alex_design_lead",
+    "sara_ux"
+  ],
+  "reviews": [
+    {
+      "persona": "nao_youtuber",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "alex_design_lead",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "sara_ux",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}

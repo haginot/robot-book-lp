@@ -4,7 +4,7 @@ Welcome to Pa11y
  > Running Pa11y on URL http://localhost:8080/index.html
 
 Error: Failed to launch the browser process!
-[3249:3249:0911/202004.515673:FATAL:zygote_host_impl_linux.cc(126)] No usable sandbox! Update your kernel or see https://chromium.googlesource.com/chromium/src/+/main/docs/linux/suid_sandbox_development.md for more information on developing with the SUID sandbox. If you want to live dangerously and need an immediate workaround, you can try using --no-sandbox.
+[3116:3116:0911/234807.498378:FATAL:zygote_host_impl_linux.cc(126)] No usable sandbox! Update your kernel or see https://chromium.googlesource.com/chromium/src/+/main/docs/linux/suid_sandbox_development.md for more information on developing with the SUID sandbox. If you want to live dangerously and need an immediate workaround, you can try using --no-sandbox.
 
 
 TROUBLESHOOTING: https://pptr.dev/troubleshooting
