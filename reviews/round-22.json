@@ -1,0 +1,35 @@
+{
+  "round": 22,
+  "personas": [
+    "library_curator",
+    "nao_youtuber",
+    "senior_reader"
+  ],
+  "reviews": [
+    {
+      "persona": "library_curator",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "nao_youtuber",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "senior_reader",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
