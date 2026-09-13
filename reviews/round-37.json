@@ -1,0 +1,35 @@
+{
+  "round": 37,
+  "personas": [
+    "ken_frontend",
+    "emma_rights_agent",
+    "chris_photographer"
+  ],
+  "reviews": [
+    {
+      "persona": "ken_frontend",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "emma_rights_agent",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "chris_photographer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
