@@ -1,0 +1,35 @@
+{
+  "round": 49,
+  "personas": [
+    "alex_design_lead",
+    "mika_a11y",
+    "library_curator"
+  ],
+  "reviews": [
+    {
+      "persona": "alex_design_lead",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "mika_a11y",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "library_curator",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
