@@ -1,0 +1,35 @@
+{
+  "round": 52,
+  "personas": [
+    "library_curator",
+    "vc_investor",
+    "tanaka_reader"
+  ],
+  "reviews": [
+    {
+      "persona": "library_curator",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "vc_investor",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "tanaka_reader",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
