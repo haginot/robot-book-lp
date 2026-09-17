@@ -1,0 +1,35 @@
+{
+  "round": 55,
+  "personas": [
+    "yamada_marketing",
+    "nao_youtuber",
+    "yuki_motion"
+  ],
+  "reviews": [
+    {
+      "persona": "yamada_marketing",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "nao_youtuber",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "yuki_motion",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
