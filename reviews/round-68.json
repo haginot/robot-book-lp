@@ -1,0 +1,35 @@
+{
+  "round": 68,
+  "personas": [
+    "sara_ux",
+    "yamada_marketing",
+    "a11y_advocate"
+  ],
+  "reviews": [
+    {
+      "persona": "sara_ux",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "yamada_marketing",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "a11y_advocate",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
