@@ -1,0 +1,35 @@
+{
+  "round": 69,
+  "personas": [
+    "mika_a11y",
+    "a11y_advocate",
+    "student_reviewer"
+  ],
+  "reviews": [
+    {
+      "persona": "mika_a11y",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "a11y_advocate",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "student_reviewer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
