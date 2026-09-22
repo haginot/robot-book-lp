@@ -1,0 +1,35 @@
+{
+  "round": 82,
+  "personas": [
+    "yamada_marketing",
+    "alex_design_lead",
+    "student_reviewer"
+  ],
+  "reviews": [
+    {
+      "persona": "yamada_marketing",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "alex_design_lead",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "student_reviewer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
