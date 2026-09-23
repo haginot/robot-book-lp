@@ -1,0 +1,35 @@
+{
+  "round": 87,
+  "personas": [
+    "mika_a11y",
+    "chris_photographer",
+    "sara_ux"
+  ],
+  "reviews": [
+    {
+      "persona": "mika_a11y",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "chris_photographer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "sara_ux",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
