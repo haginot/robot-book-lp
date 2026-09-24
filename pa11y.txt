@@ -4,18 +4,14 @@ Welcome to Pa11y
  > Running Pa11y on URL http://localhost:8080/index.html
 
 Error: Failed to launch the browser process!
-[3523:3523:0924/023940.019196:FATAL:zygote_host_impl_linux.cc(126)] No usable sandbox! Update your kernel or see https://chromium.googlesource.com/chromium/src/+/main/docs/linux/suid_sandbox_development.md for more information on developing with the SUID sandbox. If you want to live dangerously and need an immediate workaround, you can try using --no-sandbox.
-[0924/023940.027197:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq: No such file or directory (2)
-[0924/023940.027237:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
+[3458:3458:0924/085615.511580:FATAL:zygote_host_impl_linux.cc(126)] No usable sandbox! Update your kernel or see https://chromium.googlesource.com/chromium/src/+/main/docs/linux/suid_sandbox_development.md for more information on developing with the SUID sandbox. If you want to live dangerously and need an immediate workaround, you can try using --no-sandbox.
+[0924/085615.521023:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq: No such file or directory (2)
+[0924/085615.521069:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
 
 
 TROUBLESHOOTING: https://pptr.dev/troubleshooting
 
-    at Interface.onClose (/opt/hostedtoolcache/node/20.20.2/x64/lib/node_modules/pa11y/node_modules/@puppeteer/browsers/lib/cjs/launch.js:310:24)
-    at Interface.emit (node:events:536:35)
-    at Interface.close (node:internal/readline/interface:530:10)
-    at Socket.onend (node:internal/readline/interface:256:10)
-    at Socket.emit (node:events:536:35)
-    at endReadableNT (node:internal/streams/readable:1698:12)
-    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+    at ChildProcess.onClose (/opt/hostedtoolcache/node/20.20.2/x64/lib/node_modules/pa11y/node_modules/@puppeteer/browsers/lib/cjs/launch.js:310:24)
+    at ChildProcess.emit (node:events:536:35)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
 

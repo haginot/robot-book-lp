@@ -1,0 +1,35 @@
+{
+  "round": 92,
+  "personas": [
+    "student_reviewer",
+    "chris_photographer",
+    "alex_design_lead"
+  ],
+  "reviews": [
+    {
+      "persona": "student_reviewer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "chris_photographer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "alex_design_lead",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
