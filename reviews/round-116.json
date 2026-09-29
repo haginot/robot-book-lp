@@ -1,0 +1,35 @@
+{
+  "round": 116,
+  "personas": [
+    "a11y_advocate",
+    "sara_ux",
+    "emma_rights_agent"
+  ],
+  "reviews": [
+    {
+      "persona": "a11y_advocate",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "sara_ux",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "emma_rights_agent",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
