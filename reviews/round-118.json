@@ -1,0 +1,35 @@
+{
+  "round": 118,
+  "personas": [
+    "ken_frontend",
+    "vc_investor",
+    "yuki_motion"
+  ],
+  "reviews": [
+    {
+      "persona": "ken_frontend",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "vc_investor",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "yuki_motion",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
