@@ -1,0 +1,35 @@
+{
+  "round": 120,
+  "personas": [
+    "library_curator",
+    "yuki_motion",
+    "ren_content"
+  ],
+  "reviews": [
+    {
+      "persona": "library_curator",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "yuki_motion",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "ren_content",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
