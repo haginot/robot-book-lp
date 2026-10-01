@@ -1,0 +1,35 @@
+{
+  "round": 123,
+  "personas": [
+    "senior_reader",
+    "ren_content",
+    "yamada_marketing"
+  ],
+  "reviews": [
+    {
+      "persona": "senior_reader",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "ren_content",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "yamada_marketing",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
