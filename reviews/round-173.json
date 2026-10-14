@@ -1,0 +1,35 @@
+{
+  "round": 173,
+  "personas": [
+    "ken_frontend",
+    "sara_ux",
+    "alex_design_lead"
+  ],
+  "reviews": [
+    {
+      "persona": "ken_frontend",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "sara_ux",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "alex_design_lead",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
