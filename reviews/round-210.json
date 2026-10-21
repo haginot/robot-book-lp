@@ -1,0 +1,35 @@
+{
+  "round": 210,
+  "personas": [
+    "ken_frontend",
+    "library_curator",
+    "tanaka_reader"
+  ],
+  "reviews": [
+    {
+      "persona": "ken_frontend",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "library_curator",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "tanaka_reader",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
