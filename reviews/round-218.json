@@ -1,0 +1,35 @@
+{
+  "round": 218,
+  "personas": [
+    "mika_a11y",
+    "tanaka_reader",
+    "yuki_motion"
+  ],
+  "reviews": [
+    {
+      "persona": "mika_a11y",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "tanaka_reader",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "yuki_motion",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
