@@ -4,9 +4,9 @@ Welcome to Pa11y
  > Running Pa11y on URL http://localhost:8080/index.html
 
 Error: Failed to launch the browser process!
-[3020:3020:1024/083437.851826:FATAL:zygote_host_impl_linux.cc(126)] No usable sandbox! Update your kernel or see https://chromium.googlesource.com/chromium/src/+/main/docs/linux/suid_sandbox_development.md for more information on developing with the SUID sandbox. If you want to live dangerously and need an immediate workaround, you can try using --no-sandbox.
-[1024/083437.858369:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq: No such file or directory (2)
-[1024/083437.858419:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
+[3032:3032:1024/134820.121105:FATAL:zygote_host_impl_linux.cc(126)] No usable sandbox! Update your kernel or see https://chromium.googlesource.com/chromium/src/+/main/docs/linux/suid_sandbox_development.md for more information on developing with the SUID sandbox. If you want to live dangerously and need an immediate workaround, you can try using --no-sandbox.
+[1024/134820.127604:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq: No such file or directory (2)
+[1024/134820.127662:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
 
 
 TROUBLESHOOTING: https://pptr.dev/troubleshooting
