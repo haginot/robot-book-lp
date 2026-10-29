@@ -1,0 +1,35 @@
+{
+  "round": 247,
+  "personas": [
+    "student_reviewer",
+    "vc_investor",
+    "nao_youtuber"
+  ],
+  "reviews": [
+    {
+      "persona": "student_reviewer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "vc_investor",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "nao_youtuber",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
