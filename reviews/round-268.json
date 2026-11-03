@@ -1,0 +1,35 @@
+{
+  "round": 268,
+  "personas": [
+    "chris_photographer",
+    "ren_content",
+    "student_reviewer"
+  ],
+  "reviews": [
+    {
+      "persona": "chris_photographer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "ren_content",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    },
+    {
+      "persona": "student_reviewer",
+      "score": 92,
+      "issues": [
+        "dry-run"
+      ],
+      "praise": []
+    }
+  ],
+  "dry_run": true
+}
